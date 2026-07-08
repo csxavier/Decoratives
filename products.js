@@ -32,10 +32,16 @@ var PRODUCTS = [
   {"Name": "Calendar - Radhey Krishna Jhula", "Category": "Calendar", "IMG_Source": "Images/RadheyKrishna_Jhula.jpg", "Price": "₹ 120", "Size": "Standard", "Description": "Radhey Krishna Jhula calendar."},
   {"Name": "Calendar - Raj", "Category": "Calendar", "IMG_Source": "Images/Calander_Raj.jpg", "Price": "₹ 100", "Size": "Standard", "Description": "Raj calendar."},
   {"Name": "Calendar - Rasoi", "Category": "Calendar", "IMG_Source": "Images/Calander_Rasoi.jpg", "Price": "₹ 100", "Size": "Standard", "Description": "Rasoi calendar."},
+  {"Name": "Calendar - Premanand Aashirwad Type 1", "Category": "Calendar", "IMG_Source": "Images/Calander_Premanand_Aashirwad_1.jpg", "Price": "₹ 250", "Size": "Standard", "Description": "Calander Premanand Aashirwad With Radha Krishna background."},
+  {"Name": "Calendar - Premanand Aashirwad Type 2", "Category": "Calendar", "IMG_Source": "Images/Calander_Premanand_Aashirwad_2.jpg", "Price": "₹ 250", "Size": "Standard", "Description": "Calander Premanand Aashirwad."},
   {"Name": "Shree Radha (Wall)", "Category": "Sticker", "IMG_Source": "Images/Sticker_ShreeRadha.jpg", "Price": "₹ 50", "Size": "Standard", "Description": "Wall sticker of Shree Radha."},
+  {"Name": "Lotus - Shree Radha with Bansi (Hanging)", "Category": "Sticker", "IMG_Source": "Images/PinkShreeRadha.jpg", "Price": "₹ 70", "Size": "Standard", "Description": "Hanging of Shree Radha on Lotus with Bansi."},
+  {"Name": "Radhe Radhe Jhula (Wall)", "Category": "Sticker", "IMG_Source": "Images/Sticker_Jhula.jpg", "Price": "₹ 100", "Size": "Standard", "Description": "Wall sticker of Shree Radha."},
+  {"Name": "Radhe Radhe with Bansi (Wall)", "Category": "Sticker", "IMG_Source": "Images/Sticker _RadheRadhe_Bansi.jpg", "Price": "₹ 80 / piece", "Size": "Standard", "Description": "Wall sticker of Radhe Radhe on Bansi."},
   {"Name": "Shree Radhey - Premanand Ji (Hanging)", "Category": "Sticker", "IMG_Source": "Images/Sticker_ShreeRadha1.jpg", "Price": "₹ 60", "Size": "Standard", "Description": "Hanging sticker featuring Premanand Ji."},
   {"Name": "Shree Radhey - Radhey Krishna (Hanging)", "Category": "Sticker", "IMG_Source": "Images/Sticker_ShreeRadha2.jpg", "Price": "₹ 60", "Size": "Standard", "Description": "Hanging Radhey Krishna sticker."},
   {"Name": "Stand - Bansi and Peacock", "Category": "Stand", "IMG_Source": "Images/Stand_Bansi.jpg", "Price": "₹ 60", "Size": "Standard", "Description": "Decorative stand with Bansi and Peacock."},
   {"Name": "Stand - Radhey Krishna", "Category": "Stand", "IMG_Source": "Images/Stand_RadheyKrishna.jpg", "Price": "₹ 60", "Size": "Standard", "Description": "Radhey Krishna decorative stand."},
   {"Name": "Stand - Kirti Mandir", "Category": "Stand", "IMG_Source": "Images/Stand_kirtimandir.jpg", "Price": "₹ 250", "Size": "Standard", "Description": "Kirti Mandir decorative stand."}
+  {"Name": "Stand - Peacock", "Category": "Stand", "IMG_Source": "Images/Stand_Peacock.jpg", "Price": "₹ 80", "Size": "Standard", "Description": "Peacock Back with Radha and Krishna on a Stand."}
 ];
