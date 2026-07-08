@@ -42,6 +42,6 @@ var PRODUCTS = [
   {"Name": "Shree Radhey - Radhey Krishna (Hanging)", "Category": "Sticker", "IMG_Source": "Images/Sticker_ShreeRadha2.jpg", "Price": "₹ 60", "Size": "Standard", "Description": "Hanging Radhey Krishna sticker."},
   {"Name": "Stand - Bansi and Peacock", "Category": "Stand", "IMG_Source": "Images/Stand_Bansi.jpg", "Price": "₹ 60", "Size": "Standard", "Description": "Decorative stand with Bansi and Peacock."},
   {"Name": "Stand - Radhey Krishna", "Category": "Stand", "IMG_Source": "Images/Stand_RadheyKrishna.jpg", "Price": "₹ 60", "Size": "Standard", "Description": "Radhey Krishna decorative stand."},
-  {"Name": "Stand - Kirti Mandir", "Category": "Stand", "IMG_Source": "Images/Stand_kirtimandir.jpg", "Price": "₹ 250", "Size": "Standard", "Description": "Kirti Mandir decorative stand."}
+  {"Name": "Stand - Kirti Mandir", "Category": "Stand", "IMG_Source": "Images/Stand_kirtimandir.jpg", "Price": "₹ 250", "Size": "Standard", "Description": "Kirti Mandir decorative stand."},
   {"Name": "Stand - Peacock", "Category": "Stand", "IMG_Source": "Images/Stand_Peacock.jpg", "Price": "₹ 80", "Size": "Standard", "Description": "Peacock Back with Radha and Krishna on a Stand."}
 ];
