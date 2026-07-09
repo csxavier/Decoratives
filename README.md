@@ -10,7 +10,7 @@
       <h1 style="color: #ffffff; text-shadow: 3px 3px 10px rgba(0,0,0,1); font-size: 2.5rem;"><b>Radhey & Krishna</b></h1>
       <p style="color: #f3e5ab; text-shadow: 1px 1px 5px rgba(0,0,0,0.9); font-style: italic; font-size: 1.2rem;">Devotional Décor · Handcrafted with Bhakti</p>
       <br><br>
-      <a href="https://csxavier.github.io/DivineDecor/RadheyKrishna.html">
+      <a href="https://csxavier.github.io/DivineDecor/RadheyKrishna.html" target="_blank" rel="noopener noreferrer">
         <img src="https://img.shields.io/badge/✨_ENTER_STORE_✨-d4af37?style=for-the-badge&logoColor=white" alt="Enter Store" />
       </a>
       <br><br>
