@@ -11,10 +11,21 @@
    Fields:
      Name        = product name shown on the card
      Category    = Misc / Calendar / Sticker / Stand  (groups + filter button)
-     IMG_Source  = path to the image, e.g. Images/MyPhoto.jpg
+     IMG_Source  = path to the COVER image (shown on the card),
+                   e.g. Images/MyPhoto.jpg
+     Images      = OPTIONAL list of extra photos for the pop-up slideshow,
+                   e.g. ["Images/Angle2.jpg", "Images/Angle3.jpg"].
+                   The cover (IMG_Source) is added automatically, so list
+                   ONLY the other angles here. Leave it out for one image.
      Price       = e.g. "₹ 220"  or  "₹ 70 / piece"
      Size        = optional
      Description = optional
+
+   MULTIPLE IMAGES:
+     Click a product to open the viewer; the side arrows / dots (or the
+     Left/Right keys) page through that product's photos. Use the
+     "Prev / Next item" buttons (or the Up/Down keys) to hop to another
+     product. See the "Radhe Radhe with Bansi" entry below for an example.
    ============================================================ */
 
 var PRODUCTS = [
@@ -37,7 +48,7 @@ var PRODUCTS = [
   {"Name": "Shree Radha (Wall)", "Category": "Sticker", "IMG_Source": "Images/Sticker_ShreeRadha.jpg", "Price": "₹ 50", "Size": "Standard", "Description": "Wall sticker of Shree Radha."},
   {"Name": "Lotus - Shree Radha with Bansi (Hanging)", "Category": "Sticker", "IMG_Source": "Images/PinkShreeRadha.jpg", "Price": "₹ 70", "Size": "Standard", "Description": "Hanging of Shree Radha on Lotus with Bansi."},
   {"Name": "Radhe Radhe Jhula (Wall)", "Category": "Sticker", "IMG_Source": "Images/Sticker_Jhula.jpg", "Price": "₹ 100", "Size": "Standard", "Description": "Wall sticker of Shree Radha."},
-  {"Name": "Radhe Radhe with Bansi (Wall)", "Category": "Sticker", "IMG_Source": "Images/Sticker _RadheRadhe_Bansi.jpg", "Price": "₹ 80 / piece", "Size": "Standard", "Description": "Wall sticker of Radhe Radhe on Bansi."},
+  {"Name": "Radhe Radhe with Bansi (Wall)", "Category": "Sticker", "IMG_Source": "Images/Sticker _RadheRadhe_Bansi.jpg", "Images": ["Images/Sticker _RadheRadhe_Bansi_1.jpg", "Images/Sticker _RadheRadhe_Bansi_2.jpg"], "Price": "₹ 80 / piece", "Size": "Standard", "Description": "Wall sticker of Radhe Radhe on Bansi."},
   {"Name": "Shree Radhey - Premanand Ji (Hanging)", "Category": "Sticker", "IMG_Source": "Images/Sticker_ShreeRadha1.jpg", "Price": "₹ 60", "Size": "Standard", "Description": "Hanging sticker featuring Premanand Ji."},
   {"Name": "Shree Radhey - Radhey Krishna (Hanging)", "Category": "Sticker", "IMG_Source": "Images/Sticker_ShreeRadha2.jpg", "Price": "₹ 60", "Size": "Standard", "Description": "Hanging Radhey Krishna sticker."},
   {"Name": "Stand - Bansi and Peacock", "Category": "Stand", "IMG_Source": "Images/Stand_Bansi.jpg", "Price": "₹ 60", "Size": "Standard", "Description": "Decorative stand with Bansi and Peacock."},

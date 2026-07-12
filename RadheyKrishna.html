@@ -431,6 +431,7 @@
 		color: var(--indigo);
 		display: -webkit-box;
 		-webkit-line-clamp: 2;
+		line-clamp: 2;
 		-webkit-box-orient: vertical;
 		overflow: hidden;
 	}
@@ -521,6 +522,96 @@
 		.lb-nav { width: 42px; height: 42px; }
 		.lb-prev { left: 10px; } .lb-next { right: 10px; }
 	}
+
+	/* image counter (top-left of the lightbox) */
+	.lb-counter {
+		position: absolute;
+		top: 24px; left: 24px;
+		font-family: 'Marcellus', serif;
+		font-size: 14px;
+		letter-spacing: 0.08em;
+		color: var(--ivory);
+		background: rgba(255,255,255,0.12);
+		border: 1px solid rgba(255,255,255,0.22);
+		padding: 5px 13px;
+		border-radius: 999px;
+	}
+
+	/* dot indicators — one per image of the current product */
+	.lb-dots {
+		display: flex;
+		justify-content: center;
+		flex-wrap: wrap;
+		gap: 9px;
+		margin-top: 16px;
+		max-width: 90vw;
+	}
+	.lb-dot {
+		width: 9px; height: 9px;
+		padding: 0;
+		border: none;
+		border-radius: 50%;
+		cursor: pointer;
+		background: rgba(255,255,255,0.35);
+		transition: background 0.25s ease, transform 0.25s ease;
+	}
+	.lb-dot:hover { background: rgba(255,255,255,0.65); }
+	.lb-dot.active {
+		background: var(--marigold);
+		transform: scale(1.3);
+		box-shadow: 0 0 8px var(--marigold);
+	}
+
+	/* move between products without leaving the viewer */
+	.lb-product-nav {
+		display: flex;
+		gap: 12px;
+		margin-top: 20px;
+	}
+	.lb-pnav {
+		font-family: 'Marcellus', serif;
+		font-size: 13px;
+		letter-spacing: 0.08em;
+		color: var(--ivory);
+		background: rgba(255,255,255,0.1);
+		border: 1px solid rgba(255,255,255,0.25);
+		padding: 8px 17px;
+		border-radius: 999px;
+		cursor: pointer;
+		transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+	}
+	.lb-pnav:hover {
+		background: rgba(233,162,39,0.28);
+		border-color: var(--marigold-l);
+		transform: translateY(-2px);
+	}
+
+	/* hide slideshow chrome when a product has a single image */
+	.lightbox.one-img .lb-nav,
+	.lightbox.one-img .lb-dots,
+	.lightbox.one-img .lb-counter { display: none; }
+	/* hide product nav when only one product is on screen */
+	.lightbox.one-product .lb-product-nav { display: none; }
+
+	/* "multiple images" badge on the product card */
+	.img-count {
+		position: absolute;
+		top: 12px; left: 12px;
+		display: inline-flex;
+		align-items: center;
+		gap: 5px;
+		padding: 4px 9px;
+		border-radius: 999px;
+		background: rgba(43,33,80,0.55);
+		color: #fff;
+		font-family: 'Mukta', sans-serif;
+		font-size: 12px;
+		font-weight: 500;
+		z-index: 2;
+	}
+	.img-count svg { width: 14px; height: 14px; }
+	/* a broken cover image hides its count badge too */
+	.thumb img[data-broken="1"] ~ .img-count { display: none; }
 
 	/* ---------- WHATSAPP FLOATING BUTTON ---------- */
 	.wa-float {
@@ -649,6 +740,17 @@
 		letter-spacing: 0.16em;
 	}
 	footer .om { color: var(--marigold); font-size: 22px; display: block; margin-bottom: 8px; }
+	footer .visits {
+		display: inline-flex;
+		align-items: center;
+		gap: 7px;
+		margin-top: 12px;
+		font-size: 13px;
+		letter-spacing: 0.1em;
+		color: var(--ink-soft);
+	}
+	footer .visits svg { width: 15px; height: 15px; color: var(--marigold); }
+	footer .visits b { color: var(--peacock-d); font-weight: 600; letter-spacing: 0.06em; }
 
 	@media (prefers-reduced-motion: reduce) {
 		* { animation: none !important; transition: none !important; scroll-behavior: auto; }
@@ -705,6 +807,10 @@
 		<span class="om">ॐ</span>
 		<p>Radhey Krishna Decoratives · Made with devotion </p>
 		<p>All Images are AI Generated and may differ from Actual Product. </p>
+		<p class="visits" id="visitCounter" hidden>
+			<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.4 6.5L21 9l-5 4.2L17.5 21 12 17l-5.5 4L8 13.2 3 9l6.6-.5L12 2z"/></svg>
+			<span><b id="visitCount">—</b> visits</span>
+		</p>
 	</footer>
 </div>
 
@@ -731,14 +837,23 @@
 	<button class="lb-close" id="lbClose" aria-label="Close">
 		<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
 	</button>
-	<button class="lb-nav lb-prev" id="lbPrev" aria-label="Previous">
+	<span class="lb-counter" id="lbCounter"></span>
+	<!-- side arrows / Left-Right keys: slideshow through THIS product's images -->
+	<button class="lb-nav lb-prev" id="lbPrev" aria-label="Previous image" title="Previous image">
 		<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 5l-7 7 7 7"/></svg>
 	</button>
-	<button class="lb-nav lb-next" id="lbNext" aria-label="Next">
+	<button class="lb-nav lb-next" id="lbNext" aria-label="Next image" title="Next image">
 		<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5l7 7-7 7"/></svg>
 	</button>
 	<img id="lbImg" src="" alt="">
+	<!-- one dot per image of the current product -->
+	<div class="lb-dots" id="lbDots"></div>
 	<div class="lb-caption"><span id="lbTitle"></span><span id="lbPrice" style="color:var(--marigold-l)"></span></div>
+	<!-- Up/Down keys or these buttons: hop to another product -->
+	<div class="lb-product-nav" id="lbProductNav">
+		<button class="lb-pnav" id="lbPrevProduct" aria-label="Previous product" title="Previous product (Up arrow)">&#8249; Prev item</button>
+		<button class="lb-pnav" id="lbNextProduct" aria-label="Next product" title="Next product (Down arrow)">Next item &#8250;</button>
+	</div>
 </div>
 
 <!-- 1) Load the product list. Editing products.js is all that's needed. -->
@@ -763,6 +878,8 @@ function categoryLabel(cls) {
 }
 
 var zoomSVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4M11 8v6M8 11h6"/></svg>';
+/* stacked-photos icon for the "N images" badge on a card */
+var galleryIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M4 16V6a2 2 0 0 1 2-2h10"/></svg>';
 
 function esc(s) {
 	return String(s == null ? "" : s)
@@ -784,9 +901,26 @@ function plainPrice(price) {
 	return rest ? "Rs " + rest : "";
 }
 
+/* Gallery for a product = cover (IMG_Source) first, then the optional
+   Images[] list, de-duplicated and with blanks removed. A product with
+   only IMG_Source simply yields a one-image gallery. */
+function productImages(p) {
+	var list = [];
+	function push(src) {
+		src = String(src == null ? "" : src).trim();
+		if (src && list.indexOf(src) === -1) list.push(src);
+	}
+	push(p.IMG_Source);
+	if (p.Images && p.Images.length) {
+		for (var i = 0; i < p.Images.length; i++) push(p.Images[i]);
+	}
+	return list;
+}
+
 function buildCard(p) {
 	var cls = categoryClass(p.Category);
-	var img = p.IMG_Source || "";
+	var images = productImages(p);
+	var cover = images[0] || "";
 	var title = p.Name || "";
 
 	var col = document.createElement("div");
@@ -794,9 +928,10 @@ function buildCard(p) {
 	col.setAttribute("data-name", title);
 	col.innerHTML =
 		'<div class="content">' +
-			'<div class="thumb" data-src="' + esc(img) + '" data-title="' + esc(title) + '" data-price="' + esc(plainPrice(p.Price)) + '">' +
-				'<img src="' + esc(img) + '" alt="' + esc(title) + '">' +
+			'<div class="thumb" data-title="' + esc(title) + '" data-price="' + esc(plainPrice(p.Price)) + '">' +
+				'<img src="' + esc(cover) + '" alt="' + esc(title) + '">' +
 				'<span class="zoom-badge">' + zoomSVG + '</span>' +
+				(images.length > 1 ? '<span class="img-count">' + galleryIcon + images.length + '</span>' : '') +
 			'</div>' +
 			'<div class="card-body">' +
 				'<span class="tag">' + esc(categoryLabel(cls)) + '</span>' +
@@ -804,6 +939,10 @@ function buildCard(p) {
 				'<p class="price">' + renderPrice(p.Price) + '</p>' +
 			'</div>' +
 		'</div>';
+
+	var thumb = col.querySelector(".thumb");
+	thumb._images = images;               // gallery used by the lightbox
+	if (cover) thumb.dataset.src = cover; // marks "has image" + used by the error handler
 	return col;
 }
 
@@ -859,57 +998,111 @@ function filterSelection(c) {
 	applyFilters();
 }
 
-/* ---------- Lightbox ---------- */
+/* ---------- Lightbox ----------
+   Two axes of navigation:
+     - side arrows / Left-Right keys / dots  -> images of ONE product
+     - "Prev / Next item" buttons / Up-Down keys -> move between products
+*/
 var lb = document.getElementById("lightbox");
 var lbImg = document.getElementById("lbImg");
 var lbTitle = document.getElementById("lbTitle");
 var lbPrice = document.getElementById("lbPrice");
-var visible = [];
-var current = 0;
+var lbCounter = document.getElementById("lbCounter");
+var lbDots = document.getElementById("lbDots");
+
+var visibleThumbs = [];   // one thumb per visible product
+var pIndex = 0;           // current product (index into visibleThumbs)
+var iIndex = 0;           // current image within that product
+var gallery = [];         // image sources for the current product
 
 function buildVisibleList() {
-	visible = Array.prototype.filter.call(
+	visibleThumbs = Array.prototype.filter.call(
 		document.querySelectorAll(".column .thumb"),
 		function (t) {
 			return t.closest(".column").classList.contains("show") &&
-				!t.classList.contains("no-image") && t.dataset.src;
+				!t.classList.contains("no-image") &&
+				t._images && t._images.length;
 		}
 	);
 }
+
 function openLightbox(thumb) {
 	buildVisibleList();
-	current = visible.indexOf(thumb);
-	if (current < 0) return;
-	showCurrent();
+	var p = visibleThumbs.indexOf(thumb);
+	if (p < 0) return;
+	loadProduct(p, 0);
 	lb.classList.add("open");
 	document.body.style.overflow = "hidden";
 }
-function showCurrent() {
-	var t = visible[current];
+
+/* Load product p (index into visibleThumbs), starting on image i. */
+function loadProduct(p, i) {
+	var t = visibleThumbs[p];
 	if (!t) return;
-	lbImg.src = t.dataset.src;
-	lbImg.alt = t.dataset.title;
-	lbTitle.textContent = t.dataset.title;
-	lbPrice.textContent = t.dataset.price;
+	pIndex = p;
+	gallery = t._images || [];
+	iIndex = (i % gallery.length + gallery.length) % gallery.length;
+	lbTitle.textContent = t.dataset.title || "";
+	lbPrice.textContent = t.dataset.price || "";
+	lb.classList.toggle("one-img", gallery.length <= 1);
+	lb.classList.toggle("one-product", visibleThumbs.length <= 1);
+	renderDots();
+	showImage();
 }
+
+function showImage() {
+	var src = gallery[iIndex];
+	if (!src) return;
+	lbImg.src = src;
+	lbImg.alt = lbTitle.textContent;
+	lbCounter.textContent = gallery.length > 1 ? (iIndex + 1) + " / " + gallery.length : "";
+	var dots = lbDots.children;
+	for (var d = 0; d < dots.length; d++) dots[d].classList.toggle("active", d === iIndex);
+}
+
+function renderDots() {
+	lbDots.innerHTML = "";
+	if (gallery.length <= 1) return;
+	gallery.forEach(function (src, idx) {
+		var dot = document.createElement("button");
+		dot.className = "lb-dot" + (idx === iIndex ? " active" : "");
+		dot.setAttribute("aria-label", "Image " + (idx + 1));
+		dot.addEventListener("click", function () { iIndex = idx; showImage(); });
+		lbDots.appendChild(dot);
+	});
+}
+
+/* image slideshow — wraps within the current product */
+function stepImage(d) {
+	if (gallery.length < 2) return;
+	iIndex = (iIndex + d + gallery.length) % gallery.length;
+	showImage();
+}
+
+/* jump to another product — starts on its first image */
+function stepProduct(d) {
+	if (visibleThumbs.length < 2) return;
+	loadProduct((pIndex + d + visibleThumbs.length) % visibleThumbs.length, 0);
+}
+
 function closeLightbox() {
 	lb.classList.remove("open");
 	document.body.style.overflow = "";
 }
-function step(d) {
-	if (!visible.length) return;
-	current = (current + d + visible.length) % visible.length;
-	showCurrent();
-}
+
 document.getElementById("lbClose").addEventListener("click", closeLightbox);
-document.getElementById("lbPrev").addEventListener("click", function () { step(-1); });
-document.getElementById("lbNext").addEventListener("click", function () { step(1); });
+document.getElementById("lbPrev").addEventListener("click", function () { stepImage(-1); });
+document.getElementById("lbNext").addEventListener("click", function () { stepImage(1); });
+document.getElementById("lbPrevProduct").addEventListener("click", function () { stepProduct(-1); });
+document.getElementById("lbNextProduct").addEventListener("click", function () { stepProduct(1); });
 lb.addEventListener("click", function (e) { if (e.target === lb) closeLightbox(); });
 document.addEventListener("keydown", function (e) {
 	if (!lb.classList.contains("open")) return;
 	if (e.key === "Escape") closeLightbox();
-	if (e.key === "ArrowRight") step(1);
-	if (e.key === "ArrowLeft") step(-1);
+	else if (e.key === "ArrowRight") stepImage(1);
+	else if (e.key === "ArrowLeft") stepImage(-1);
+	else if (e.key === "ArrowDown") stepProduct(1);
+	else if (e.key === "ArrowUp") stepProduct(-1);
 });
 
 /* ---------- Build everything ---------- */
@@ -1023,6 +1216,37 @@ function render(products) {
 			closeSearch();
 		}
 	});
+})();
+
+/* ---------- Visitor counter (hosted — no repo commits needed) ----------
+   The tally lives on a free counter service (Abacus), not in this repo,
+   so nothing is ever pushed or committed. Counts one visit per browser
+   session; if the service is unreachable it stays hidden (never shows 0
+   or an error). To reset the count later, change NS or KEY below.
+*/
+(function visitorCounter() {
+	var wrap = document.getElementById("visitCounter");
+	var out  = document.getElementById("visitCount");
+	if (!wrap || !out) return;
+
+	var BASE = "https://abacus.jasoncameron.dev";
+	var NS   = "divinedecor-radheykrishna";   // namespace (change to reset)
+	var KEY  = "site-visits";                 // counter name
+
+	/* Increment once per browsing session; only read on later page views. */
+	var firstVisit = !sessionStorage.getItem("dd_visit");
+	var url = BASE + (firstVisit ? "/hit/" : "/get/") + NS + "/" + KEY;
+
+	fetch(url)
+		.then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+		.then(function (data) {
+			var n = data && (data.value != null ? data.value : data.count);
+			if (n == null) return;
+			if (firstVisit) { try { sessionStorage.setItem("dd_visit", "1"); } catch (e) {} }
+			out.textContent = Number(n).toLocaleString();
+			wrap.hidden = false;
+		})
+		.catch(function () { /* service down — leave the counter hidden */ });
 })();
 </script>
 
